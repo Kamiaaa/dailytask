@@ -13,7 +13,7 @@ export default function EmployeesPage() {
   const [roleFilter, setRoleFilter] = useState("");
   const [departmentFilter, setDepartmentFilter] = useState("");
   const [page, setPage] = useState(1);
-  const [pageSize, setPageSize] = useState(5);
+  const [pageSize, setPageSize] = useState(10);
   const [form, setForm] = useState({
     name: "",
     email: "",
@@ -339,21 +339,47 @@ export default function EmployeesPage() {
 
           <div className="flex items-center gap-2">
             <button
-              className="btn-secondary px-3 py-1 text-sm disabled:opacity-40"
+              className="btn-secondary p-1.5 disabled:opacity-40"
               onClick={() => setPage((p) => Math.max(1, p - 1))}
               disabled={currentPage <= 1}
+              aria-label="Previous page"
             >
-              Previous
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                width="16"
+                height="16"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                strokeWidth="2"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+              >
+                <path d="m15 18-6-6 6-6" />
+              </svg>
             </button>
             <span className="text-sm text-ink/60">
               Page {currentPage} of {totalPages}
             </span>
             <button
-              className="btn-secondary px-3 py-1 text-sm disabled:opacity-40"
+              className="btn-secondary p-1.5 disabled:opacity-40"
               onClick={() => setPage((p) => Math.min(totalPages, p + 1))}
               disabled={currentPage >= totalPages}
+              aria-label="Next page"
             >
-              Next
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                width="16"
+                height="16"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                strokeWidth="2"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+              >
+                <path d="m9 18 6-6-6-6" />
+              </svg>
             </button>
           </div>
         </div>
