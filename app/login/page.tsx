@@ -81,7 +81,7 @@ export default function LoginPage() {
                 id="email"
                 type="email"
                 required
-                className="input pl-12"
+                className="input pl-11"
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
               />
@@ -111,7 +111,7 @@ export default function LoginPage() {
                 id="password"
                 type="password"
                 required
-                className="input pl-12"
+                className="input pl-11"
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
               />
