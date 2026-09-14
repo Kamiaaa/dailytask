@@ -95,7 +95,7 @@ export default async function Home() {
 
 
       <footer className="max-w-6xl mx-auto w-full px-8 py-10 text-sm text-ink/40 border-t border-ink/10">
-        Meridian — employee task tracking with an approval step.
+        Daily Task — employee task tracking with an approval step.
       </footer>
     </main>
   );
