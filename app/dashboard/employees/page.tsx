@@ -12,6 +12,8 @@ export default function EmployeesPage() {
   const [search, setSearch] = useState("");
   const [roleFilter, setRoleFilter] = useState("");
   const [departmentFilter, setDepartmentFilter] = useState("");
+  const [page, setPage] = useState(1);
+  const [pageSize, setPageSize] = useState(5);
   const [form, setForm] = useState({
     name: "",
     email: "",
@@ -117,6 +119,20 @@ export default function EmployeesPage() {
   }, [employees, search, roleFilter, departmentFilter]);
 
   const hasActiveFilters = !!(search || roleFilter || departmentFilter);
+
+  // Reset to page 1 whenever the filtered set or page size changes, so we
+  // never get stuck showing an empty page after narrowing results.
+  useEffect(() => {
+    setPage(1);
+  }, [search, roleFilter, departmentFilter, pageSize]);
+
+  const totalPages = Math.max(1, Math.ceil(filteredEmployees.length / pageSize));
+  const currentPage = Math.min(page, totalPages);
+
+  const paginatedEmployees = useMemo(() => {
+    const start = (currentPage - 1) * pageSize;
+    return filteredEmployees.slice(start, start + pageSize);
+  }, [filteredEmployees, currentPage, pageSize]);
 
   if (session.role !== "admin") {
     return <p className="text-ink/60">Only admins can manage the employee list.</p>;
@@ -265,7 +281,7 @@ export default function EmployeesPage() {
                 </td>
               </tr>
             ) : (
-              filteredEmployees.map((emp) => (
+              paginatedEmployees.map((emp) => (
                 <tr key={emp._id} className="border-t border-ink/10">
                   <td className="px-4 py-3">{emp.name}</td>
                   <td className="px-4 py-3 text-ink/60">{emp.email}</td>
@@ -301,6 +317,47 @@ export default function EmployeesPage() {
           </tbody>
         </table>
       </div>
+
+      {!loading && filteredEmployees.length > 0 && (
+        <div className="flex flex-col sm:flex-row items-center justify-between gap-3 mt-4">
+          <div className="flex items-center gap-2 text-sm text-ink/60">
+            <span>
+              Showing {(currentPage - 1) * pageSize + 1}–
+              {Math.min(currentPage * pageSize, filteredEmployees.length)} of{" "}
+              {filteredEmployees.length}
+            </span>
+            <select
+              className="input py-1 text-sm"
+              value={pageSize}
+              onChange={(e) => setPageSize(Number(e.target.value))}
+            >
+              <option value={10}>10 / page</option>
+              <option value={25}>25 / page</option>
+              <option value={50}>50 / page</option>
+            </select>
+          </div>
+
+          <div className="flex items-center gap-2">
+            <button
+              className="btn-secondary px-3 py-1 text-sm disabled:opacity-40"
+              onClick={() => setPage((p) => Math.max(1, p - 1))}
+              disabled={currentPage <= 1}
+            >
+              Previous
+            </button>
+            <span className="text-sm text-ink/60">
+              Page {currentPage} of {totalPages}
+            </span>
+            <button
+              className="btn-secondary px-3 py-1 text-sm disabled:opacity-40"
+              onClick={() => setPage((p) => Math.min(totalPages, p + 1))}
+              disabled={currentPage >= totalPages}
+            >
+              Next
+            </button>
+          </div>
+        </div>
+      )}
     </div>
   );
 }
