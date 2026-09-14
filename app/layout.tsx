@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import "./globals.css";
 
 export const metadata: Metadata = {
-  title: "Meridian — Employee Evaluation",
+  title: "Taily Task — Employee Evaluation",
   description: "Assign daily tasks to your team and track completion scores.",
 };
 
