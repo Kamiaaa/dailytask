@@ -1,0 +1,85 @@
+@import url("https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600&family=Inter:wght@400;500;600;700&display=swap");
+@import "tailwindcss";
+
+/* Tailwind v4 is CSS-first: theme tokens (colors, fonts, etc.) that used to
+   live in tailwind.config.ts now live here in an @theme block. Each
+   --color-* / --font-* variable automatically generates the matching
+   utility classes (e.g. --color-brass-500 -> bg-brass-500, text-brass-500). */
+@theme {
+  --color-ink: #12181b;
+  --color-paper: #f6f4ee;
+  --color-slate-950: #0d1417;
+
+  --color-brass-400: #c9a227;
+  --color-brass-500: #ae8a1f;
+  --color-brass-600: #8c6d18;
+
+  --color-moss-500: #4c6e5d;
+  --color-moss-600: #3b5748;
+
+  --color-clay: #b5573b;
+
+  --font-display: "Fraunces", serif;
+  --font-body: "Inter", sans-serif;
+}
+
+:root {
+  color-scheme: light;
+}
+
+body {
+  background-color: #f6f4ee;
+  color: #12181b;
+}
+
+::selection {
+  background-color: #c9a227;
+  color: #12181b;
+}
+
+.card {
+  background: white;
+  border: 1px solid #e7e2d4;
+  border-radius: 0.75rem;
+}
+
+.btn-primary {
+  background-color: #12181b;
+  color: #f6f4ee;
+  border-radius: 0.5rem;
+  padding: 0.6rem 1.1rem;
+  font-weight: 500;
+  transition: background-color 150ms ease;
+}
+.btn-primary:hover {
+  background-color: #2a3438;
+}
+.btn-primary:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.btn-secondary {
+  background-color: transparent;
+  color: #12181b;
+  border: 1px solid #12181b;
+  border-radius: 0.5rem;
+  padding: 0.55rem 1.05rem;
+  font-weight: 500;
+  transition: background-color 150ms ease;
+}
+.btn-secondary:hover {
+  background-color: #12181b0d;
+}
+
+.input {
+  border: 1px solid #d8d2c0;
+  border-radius: 0.5rem;
+  padding: 0.55rem 0.75rem;
+  background: white;
+  width: 100%;
+}
+.input:focus {
+  outline: 2px solid #ae8a1f;
+  outline-offset: 1px;
+}
