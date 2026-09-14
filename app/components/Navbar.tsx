@@ -43,7 +43,7 @@ export default function Navbar({ session }: { session: SessionPayload }) {
     <header className="border-b border-ink/10 bg-paper/95 sticky top-0 z-10">
       <div className="max-w-6xl mx-auto px-6 h-16 flex items-center justify-between">
         <div className="flex items-center gap-8">
-          <span className="font-display text-lg">Meridian</span>
+          <span className="font-display text-lg">Daily Task</span>
           <nav className="hidden md:flex gap-1">
             {links.map((link) => {
               const active = pathname === link.href;
@@ -65,7 +65,7 @@ export default function Navbar({ session }: { session: SessionPayload }) {
           <div className="text-right hidden sm:block mr-1">
             <p className="text-sm font-medium leading-tight">{session.name}</p>
             <p className="text-xs text-ink/50 leading-tight capitalize">
-              {session.role.replace("_", " ")} · {session.department}
+              {session.role.replace("_", " ")}
             </p>
           </div>
           <NotificationBell />
