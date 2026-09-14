@@ -65,7 +65,7 @@ export default function Navbar({ session }: { session: SessionPayload }) {
           <div className="text-right hidden sm:block mr-1">
             <p className="text-sm font-medium leading-tight">{session.name}</p>
             <p className="text-xs text-ink/50 leading-tight capitalize">
-              {session.role.replace("_", " ")}
+              {session.role.replace("_", " ")} · {session.department}
             </p>
           </div>
           <NotificationBell />
