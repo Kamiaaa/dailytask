@@ -81,7 +81,7 @@ export default function LoginPage() {
                 id="email"
                 type="email"
                 required
-                className="input pl-24"
+                className="input pl-11"
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
               />
