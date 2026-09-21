@@ -20,4 +20,34 @@ export async function uploadToCloudinary(
   return result.secure_url;
 }
 
+export interface UploadedProof {
+  url: string;
+  /** "image" for anything previewable inline, "file" for PDFs, docs, zips… */
+  type: "image" | "file";
+}
+
+/**
+ * Uploads task evidence. Unlike avatars this keeps the original file intact —
+ * no crop, no overwrite — and accepts non-image types (PDF, docx, zip) via
+ * `resource_type: "auto"`, which is what lets a reviewer open the real file.
+ */
+export async function uploadProofToCloudinary(
+  dataUrl: string,
+  folder = "employee-evaluation/proofs"
+): Promise<UploadedProof> {
+  const result = await cloudinary.uploader.upload(dataUrl, {
+    folder,
+    resource_type: "auto",
+    overwrite: false,
+    // Cloudinary serves "raw" files under a non-guessable public id, but the
+    // URL is still public — fine for task evidence, not for secrets.
+    use_filename: true,
+    unique_filename: true,
+  });
+  return {
+    url: result.secure_url,
+    type: result.resource_type === "image" ? "image" : "file",
+  };
+}
+
 export default cloudinary;
