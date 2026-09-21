@@ -41,7 +41,7 @@ const roleCards = [
         role: "Employee",
         description:
             "Sees what's assigned, does the work, and submits it — the point only lands once it's approved.",
-        bullets: ["View daily tasks", "Submit for review", "Resubmit if rejected", "See personal score"],
+        bullets: ["View daily tasks", "Submit with proof", "Resubmit if rejected", "See personal score"],
     },
 ];
 
@@ -83,7 +83,7 @@ export default async function Docs() {
                 <ol className="grid md:grid-cols-4 gap-6">
                     {[
                         { step: "1", title: "Assign", body: "Head picks a team member and a date, worth 1 point." },
-                        { step: "2", title: "Submit", body: "Employee does the work and submits it for review." },
+                        { step: "2", title: "Submit", body: "Employee submits the work, with a note or file as proof." },
                         { step: "3", title: "Review", body: "Head approves or rejects, with an optional note." },
                         { step: "4", title: "Score", body: "Approved tasks count toward completed ÷ assigned." },
                     ].map((s) => (

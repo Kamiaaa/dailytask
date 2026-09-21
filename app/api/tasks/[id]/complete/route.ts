@@ -34,7 +34,7 @@ export async function PATCH(req: NextRequest, { params }: { params: Promise<{ id
     return jsonError("You are not allowed to update this task.", 403);
   }
 
-  const { status, reviewNote } = await req.json();
+  const { status, reviewNote, proofUrl, proofName, proofType, proofNote } = await req.json();
   if (!["submitted", "approved", "rejected"].includes(status)) {
     return jsonError("status must be 'submitted', 'approved' or 'rejected'.");
   }
@@ -46,6 +46,21 @@ export async function PATCH(req: NextRequest, { params }: { params: Promise<{ id
     if (task.status !== "pending" && task.status !== "rejected") {
       return jsonError("Only a pending or rejected task can be submitted.", 400);
     }
+
+    // Proof is optional, but if a URL is sent it has to be one we issued —
+    // otherwise the field becomes an open redirect / arbitrary-link vector.
+    if (proofUrl !== undefined && proofUrl !== null && proofUrl !== "") {
+      if (typeof proofUrl !== "string" || !/^https:\/\/res\.cloudinary\.com\//.test(proofUrl)) {
+        return jsonError("Attach the file through the upload button so we can host it.", 400);
+      }
+      task.proofUrl = proofUrl;
+      task.proofName = typeof proofName === "string" ? proofName.slice(0, 200) : "";
+      task.proofType = proofType === "image" ? "image" : "file";
+    }
+    if (typeof proofNote === "string") {
+      task.proofNote = proofNote.trim().slice(0, 1000);
+    }
+
     task.status = "submitted";
     task.submittedAt = new Date();
     task.reviewedAt = undefined;
@@ -59,7 +74,9 @@ export async function PATCH(req: NextRequest, { params }: { params: Promise<{ id
       await notify({
         userId: team.head,
         type: "task_submitted",
-        message: `${session.name} submitted "${task.title}" for review.`,
+        message: `${session.name} submitted "${task.title}" for review${
+          task.proofUrl ? " with an attachment." : "."
+        }`,
         taskId: task._id,
       });
     }
