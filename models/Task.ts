@@ -20,6 +20,13 @@ export interface ITask extends Document {
   reviewedAt?: Date;
   reviewedBy?: Types.ObjectId;
   reviewNote?: string;
+  // Evidence the employee attaches when submitting. proofUrl is a Cloudinary
+  // secure URL (image, PDF, doc…); proofName is the original filename so the
+  // reviewer sees something friendlier than the Cloudinary public id.
+  proofUrl?: string;
+  proofName?: string;
+  proofType?: "image" | "file";
+  proofNote?: string;
   template?: Types.ObjectId; // set when this task was auto-generated from a TaskTemplate
   createdAt: Date;
 }
@@ -42,6 +49,10 @@ const TaskSchema = new Schema<ITask>(
     reviewedAt: { type: Date },
     reviewedBy: { type: Schema.Types.ObjectId, ref: "User" },
     reviewNote: { type: String, trim: true, default: "" },
+    proofUrl: { type: String, trim: true, default: "" },
+    proofName: { type: String, trim: true, default: "" },
+    proofType: { type: String, enum: ["image", "file"] },
+    proofNote: { type: String, trim: true, default: "", maxlength: 1000 },
     template: { type: Schema.Types.ObjectId, ref: "TaskTemplate" },
   },
   { timestamps: true }

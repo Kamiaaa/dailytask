@@ -31,6 +31,10 @@ export interface TaskDTO {
   reviewedAt?: string;
   reviewedBy?: EmployeeDTO | string;
   reviewNote?: string;
+  proofUrl?: string;
+  proofName?: string;
+  proofType?: "image" | "file";
+  proofNote?: string;
 }
 
 export interface ScoreEntry {
@@ -38,6 +42,21 @@ export interface ScoreEntry {
   totalAssigned: number;
   totalCompleted: number;
   score: number; // percentage, 0-100
+}
+
+/** One bucket of the score trend — a calendar month within the selected range. */
+export interface ScoreTrendPoint {
+  month: string; // "2026-09"
+  label: string; // "Sep 2026"
+  totalAssigned: number;
+  totalCompleted: number;
+  score: number; // percentage, 0-100
+}
+
+export interface ScoresResponse {
+  scores: ScoreEntry[];
+  trend: ScoreTrendPoint[];
+  range: { from: string | null; to: string | null };
 }
 
 export interface NotificationDTO {
